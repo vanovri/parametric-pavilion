@@ -30,6 +30,8 @@ python adversarial_critic_loop.py
 
 Each build exports a GLB, actual Cycles `iso.png`, `front.png`, `top.png`, a local `.blend` scene and evaluated-mesh telemetry. The `.blend` is excluded from Git because the generator is the reproducible source. Export failures stop the command. There is no metadata-only fallback.
 
+The CI rebuild uses the official Blender 5.0.1 Linux runtime, pinned to SHA-256 `8019580ee1b7262e505f4196a00237ccf743c88d205b38d34201510676e60b09` from the [vendor checksum manifest](https://download.blender.org/release/Blender5.0/blender-5.0.1.sha256). Its bundled denoiser avoids the missing-OpenImageDenoiser failure in the runner's older distribution package.
+
 ## What is checked
 
 - Parameters reject non-finite values, invalid ranges, unsupported modes and fractional tier counts.
