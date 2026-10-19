@@ -1,0 +1,114 @@
+{
+  "reviewer": "Independent pavilion_critic subagent",
+  "review_kind": "Independent source, actual exported GLB, and six final Cycles PNG inspection",
+  "reviewed_at_local": "2026-10-19T15:08:30+07:00",
+  "approval_threshold": 9.0,
+  "subjective_score": 9.1,
+  "approve": true,
+  "score_is_subjective": true,
+  "scope": "Approval applies to these two stylized architectural studies and the evidence hashes below. It does not certify a physical building or a general-purpose geometry validator.",
+  "prior_rejection": "docs/critic-review-01.json",
+  "inspected_glb_sha256": {
+    "pagoda": "433c9c67f927dc1196b76f7efd1221e878119fa280cb39c1abc7243de87e7a8f",
+    "pavilion": "0506bcbb2ecd6a3282469f191f95b8d32e8322acc10925397848eab495a7a9af"
+  },
+  "inspected_render_sha256": {
+    "pagoda": {
+      "iso": "c57c7d161e528212727d2ff7d505ee0d175ae1775a4319d66ac62aa894214dbc",
+      "front": "46769fec13353a26ebb14fb68d429970db18efa3417e390a202a9764d6d993fd",
+      "top": "9bdf0e7ff11493e717dbda1aee3b775fe5379292d6de615bbf2e8f813d2a460b"
+    },
+    "pavilion": {
+      "iso": "a72971d57f6ae76534a34d3d01d01ae009852eedac35abaf37d85560948a1a2c",
+      "front": "81860f395a1b50932b2d9563b63670cf70bebebda83efbc3e331eed7deab809d",
+      "top": "583ff0370a611912b9ad911759f9f821d5bdd315b43cad0ef4a261047b0c1ded"
+    }
+  },
+  "inspected_source_sha256": {
+    "generate_pagoda_bpy.py": "c3d3ab3a1581a1887c9b6f2c0c766c5889b6d9b1c08dc1dbe5150125dc87e196",
+    "geometry.py": "1dccdccd589b9f52c6f93df9de07d0b4bd94e42f251f93c76bacc348ff67310f"
+  },
+  "evidence_files": [
+    "assets/pagoda/iso.png",
+    "assets/pagoda/front.png",
+    "assets/pagoda/top.png",
+    "assets/pagoda/model.glb",
+    "assets/pagoda/scene_telemetry.json",
+    "assets/pavilion/iso.png",
+    "assets/pavilion/front.png",
+    "assets/pavilion/top.png",
+    "assets/pavilion/model.glb",
+    "assets/pavilion/scene_telemetry.json",
+    "docs/build-pagoda.log",
+    "docs/build-pavilion.log",
+    "geometry.py",
+    "generate_pagoda_bpy.py",
+    "glb_geometry.py",
+    "verify_model.py",
+    "viewer.mjs",
+    "adversarial_critic_loop.py"
+  ],
+  "completion_check": "Both build logs ended with Blender quit after saving scene.blend. Both telemetry records contain final render hashes and generator/geometry hashes matching current source. All six final PNGs were viewed directly after completion.",
+  "subjective_rubric": {
+    "silhouette_taper_and_proportion": 9.2,
+    "roof_curvature_and_corner_readability": 9.2,
+    "structural_join_visual_integrity": 9.1,
+    "material_hierarchy_and_lantern_readability": 8.9,
+    "framing_and_presentation": 9.1,
+    "aggregation": "Arithmetic mean of five subjective criteria: 9.1/10. The rubric evaluates the requested stylized procedural studies, rather than photorealism or construction documentation."
+  },
+  "strengths": [
+    "The five pagoda tiers taper coherently. The roof overhang, stepped podium, timber cores and gold finial establish a clear silhouette in front and isometric views.",
+    "Curved square roof surfaces and raised corners read clearly. The top views show no red lintel slits or column tips breaking through the roof.",
+    "The open pavilion remains visibly open. Its roof corners, finial and complete podium fit inside the frame with margin.",
+    "Warm hanging lanterns remain readable beneath the eaves. Their supporting caps and hangers connect coherently in the inspected views.",
+    "The final pavilion front and isometric renders no longer contain the previously observed sharp background strips. The source fits projected bounds and checks actual orthographic frame origins before moving the camera backward.",
+    "Mechanical verification now reads actual GLB triangles and checks directed edge closure plus sampled local roof contacts. It no longer relies only on broad telemetry roof ranges."
+  ],
+  "resolved_findings": [
+    {
+      "id": "roof-beam-penetration",
+      "resolution": "Lintels were lowered beneath the local roof surface. Final top views are clean. Actual exported-triangle contact checks and the raised-lintel regression pass."
+    },
+    {
+      "id": "pavilion-camera-crop",
+      "resolution": "Projected full model bounds and portrait aspect are used for camera scale. Both roof tips and podium fit within the final isometric image."
+    },
+    {
+      "id": "ground-background-bands",
+      "resolution": "A larger floor and frustum-aware camera retreat replace the earlier fixed retreat. The sharp lower strip in the pavilion front render is absent in the final inspected image."
+    },
+    {
+      "id": "webgl-fallback-status",
+      "resolution": "WebGLRenderer construction is now guarded. Source shows a truthful unavailable status and disables interactive controls while retaining the static image and GLB link. This is source inspection, not an independently induced browser context failure."
+    }
+  ],
+  "critical_defects": [],
+  "verification": {
+    "unit_tests": "8 passed during independent final review",
+    "pagoda_exported_mesh_components": 287,
+    "pavilion_exported_mesh_components": 38,
+    "pagoda_local_roof_contact_samples": 660,
+    "pavilion_local_roof_contact_samples": 132,
+    "mechanical_verifiers": "Both passed, including GLB and PNG hash verification",
+    "regressions": [
+      "Removing an exported roof triangle is rejected",
+      "Raising a lintel through the local roof is rejected",
+      "Lowering a column away from its roof contact is rejected",
+      "Tampering with GLB bytes is rejected"
+    ]
+  },
+  "nonblocking_observations": [
+    "The material system and repeated timber lattice are deliberately simple. Further surface detail could enrich close-up views, but it is not necessary for this procedural-study scope.",
+    "Some fine Cycles grain remains in shadowed areas at 64 samples. It does not obscure the shapes or conceal the reviewed joins.",
+    "The wide pavilion leaves substantial portrait whitespace. This is acceptable for a complete architectural view; a separate landscape promotional composition could be more compact."
+  ],
+  "limits": [
+    "Separate closed overlapping components do not constitute one watertight solid, a collision-free interior, a printable model or a structurally safe building.",
+    "Local roof contact checks sample specified column rims and lintel spans. They do not prove every possible intersection or contact over the entire model.",
+    "The GLB reader intentionally supports the embedded triangle export used here. It is not a complete glTF validator.",
+    "The six inspected views are orthographic, including the isometric view. No physical, surveyed, historical-replica or photometric accuracy is certified.",
+    "This critic independently inspected files, source, renders and test output. It did not independently run interactive browser controls or measure rendering performance.",
+    "The score is a subjective independent opinion. It must not be presented as objective architectural or aesthetic proof."
+  ]
+}

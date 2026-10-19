@@ -1,0 +1,17 @@
+{
+  "browser": "Brave, actual WebGL renderer",
+  "url": "http://127.0.0.1:8769/",
+  "checks": [
+    "Pagoda GLB loads, 287 components and five tiers shown",
+    "Pavilion GLB loads, 38 components and one tier shown",
+    "Model selection updates render and GLB download link",
+    "Wireframe toggles, arrow-key orbit and Reset view execute",
+    "No captured console errors during the interaction pass",
+    "390-pixel viewport, document width375 pixels, no horizontal overflow"
+  ],
+  "screenshots": ["preview.png", "mobile.png"],
+  "limits": [
+    "WebGL-unavailable fallback was checked in source, not by disabling the user's graphics driver",
+    "No structural, historical, printability or physical-device validation"
+  ]
+}

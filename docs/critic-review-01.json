@@ -1,0 +1,78 @@
+{
+  "reviewer": "Independent pavilion_critic subagent",
+  "review_kind": "Source, exported GLB evidence, and actual six-view Cycles render inspection",
+  "approval_threshold": 9.0,
+  "subjective_score": 7.8,
+  "approve": false,
+  "score_is_subjective": true,
+  "review_status": "Changes required. Reinspect regenerated renders and new GLB hashes before approval.",
+  "inspected_glb_sha256": {
+    "pagoda": "93a8dc84399204d469d7d4f638262e548f32d4724ddc934b6248bbde4d532be7",
+    "pavilion": "6c4077e8210b3cfe42e2003f4c009f2c2065cab8731acd8253b79c591ef695b5"
+  },
+  "evidence_files": [
+    "assets/pagoda/iso.png",
+    "assets/pagoda/front.png",
+    "assets/pagoda/top.png",
+    "assets/pagoda/scene_telemetry.json",
+    "assets/pagoda/model.glb",
+    "assets/pavilion/iso.png",
+    "assets/pavilion/front.png",
+    "assets/pavilion/top.png",
+    "assets/pavilion/scene_telemetry.json",
+    "assets/pavilion/model.glb",
+    "geometry.py",
+    "generate_pagoda_bpy.py",
+    "verify_model.py",
+    "viewer.mjs"
+  ],
+  "completed_render_evidence": {
+    "pagoda_scene_blend_local_time": "2026-10-19T07:09:38",
+    "pavilion_scene_blend_local_time": "2026-10-19T07:09:27",
+    "note": "All three PNG views for each study and the saved Blender scenes had finished before this verdict. PNG views were inspected directly, not inferred from telemetry."
+  },
+  "subjective_rubric": {
+    "silhouette_taper_and_proportion": 9.0,
+    "roof_curvature_and_corner_readability": 9.0,
+    "material_hierarchy_and_lantern_readability": 8.8,
+    "structural_join_visual_integrity": 6.5,
+    "framing_and_presentation": 6.5,
+    "explanation": "The intended forms read clearly, but visible roof penetration and clipped pavilion composition prevent the requested 9-point visual gate. This is a judgement about these images, not a physical or historical validation."
+  },
+  "strengths": [
+    "Five progressively narrower pagoda tiers form a coherent silhouette. The base, timber, dark teal roof and gold finial establish clear visual hierarchy.",
+    "Roof corners genuinely curve upward. They are not flat cones with a text-only curvature claim.",
+    "Warm lanterns are visible beneath the eaves in front and isometric views. The GLBs contain KHR_materials_emissive_strength.",
+    "The open pavilion is recognizably open, and the pagoda cores remain below the roof in the visible front/isometric projections.",
+    "GLB hashes match telemetry. Both models report zero nonmanifold evaluated component edges. Five existing unit tests and both mechanical verifier invocations passed during independent review."
+  ],
+  "critical_defects": [
+    {
+      "id": "roof-beam-penetration",
+      "severity": "blocker",
+      "evidence": ["assets/pavilion/top.png", "assets/pagoda/top.png"],
+      "observation": "Red lintel beams break through the upper roof surface as long slits. Pavilion column tips are also visible through the roof. Pagoda top view shows a smaller red rectangular beam outline.",
+      "action": "Place lintel tops beneath the local underside of the curved roof for their entire span, and constrain column tops beneath the local upper surface. Check the actual roof profile at structural contacts rather than using only global roof bounds. Regenerate both GLBs and all views."
+    },
+    {
+      "id": "pavilion-camera-crop",
+      "severity": "blocker",
+      "evidence": ["assets/pavilion/iso.png"],
+      "observation": "The pavilion roof exits both horizontal image edges. The model is not fully presented in the main isometric render.",
+      "action": "Fit camera scale from projected model bounds, portrait aspect ratio and the chosen view direction, with margin. Reframe the pavilion isometric view and verify that all roof corners and the podium remain inside the image."
+    },
+    {
+      "id": "webgl-fallback-status",
+      "severity": "behavioral",
+      "evidence": ["viewer.mjs"],
+      "observation": "WebGLRenderer construction occurs before the try/catch in load(). If context creation fails, the module exits before the promised fallback status can be shown. The static image remains in the HTML, but the status stays Loading model.",
+      "action": "Guard renderer and controls initialization, retain static image and download, and display a truthful fallback status when initialization fails."
+    }
+  ],
+  "limits": [
+    "A component mesh manifold report does not establish a single watertight assembled building, collision-free intersections, printability or structural safety. The README correctly limits this claim.",
+    "The current verifier checks telemetry bounds and the GLB hash but does not reconstruct GLB topology or prove a local roof-to-support contact. Its pass did not catch the visible red beam penetration.",
+    "PNG signature and file-size checks alone do not establish actual render content or freshness. This review directly inspected the six finished images and file timestamps.",
+    "No physical building, surveyed dimensions, historical replication, runtime browser interaction or real-world light output was independently verified by this critic."
+  ]
+}

@@ -1,0 +1,1 @@
+{"name":"parametric-pavilion","version":"0.1.0","private":true,"type":"module","dependencies":{"three":"0.186.1"},"scripts":{"serve":"python -m http.server 8769 --bind 127.0.0.1"}}

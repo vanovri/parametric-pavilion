@@ -1,0 +1,37 @@
+name: Verify model evidence
+on: [push, pull_request]
+jobs:
+  evidence:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -v
+      - run: python verify_model.py assets/pagoda
+      - run: python verify_model.py assets/pavilion
+      - run: python adversarial_critic_loop.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --ignore-scripts
+      - run: node --check viewer.mjs
+  blender-rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y blender python3-numpy
+      - run: blender -b -t 2 --python-exit-code 1 -P generate_pagoda_bpy.py -- params/pavilion.json reports/ci-pavilion
+        timeout-minutes: 12
+      - run: python3 verify_model.py reports/ci-pavilion
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rebuilt-pavilion
+          path: |
+            reports/ci-pavilion/*.png
+            reports/ci-pavilion/*.json
+            reports/ci-pavilion/*.glb
